@@ -1,0 +1,257 @@
+{
+  "examples": [
+    {
+      "name": "Expense Approval Workflow",
+      "version": 1,
+      "is_active": true,
+      "input_schema": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Expense amount in USD"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["travel", "meals", "equipment", "other"]
+          }
+        },
+        "required": ["amount", "country", "category"]
+      },
+      "steps": [
+        {
+          "name": "Manager Review",
+          "step_type": "approval",
+          "order": 1,
+          "metadata": {
+            "description": "Manager reviews and approves expense"
+          }
+        },
+        {
+          "name": "High Amount Check",
+          "step_type": "task",
+          "order": 2,
+          "metadata": {
+            "description": "Check if amount exceeds approval limit"
+          }
+        },
+        {
+          "name": "Finance Review",
+          "step_type": "approval",
+          "order": 3,
+          "metadata": {
+            "description": "Finance team reviews high-value expenses"
+          }
+        },
+        {
+          "name": "Approval Notification",
+          "step_type": "notification",
+          "order": 4,
+          "metadata": {
+            "description": "Send notification of approval"
+          }
+        }
+      ],
+      "rules": [
+        {
+          "step_id": 1,
+          "condition": "DEFAULT",
+          "next_step_id": 2,
+          "priority": 100
+        },
+        {
+          "step_id": 2,
+          "condition": "amount > 1000",
+          "next_step_id": 3,
+          "priority": 1
+        },
+        {
+          "step_id": 2,
+          "condition": "amount <= 1000",
+          "next_step_id": 4,
+          "priority": 2
+        },
+        {
+          "step_id": 3,
+          "condition": "DEFAULT",
+          "next_step_id": 4,
+          "priority": 100
+        },
+        {
+          "step_id": 4,
+          "condition": "DEFAULT",
+          "next_step_id": null,
+          "priority": 100
+        }
+      ]
+    },
+    {
+      "name": "Customer Onboarding",
+      "version": 1,
+      "is_active": true,
+      "input_schema": {
+        "properties": {
+          "customerType": {
+            "type": "string",
+            "enum": ["individual", "corporate"]
+          },
+          "registrationAmount": {
+            "type": "number"
+          },
+          "country": {
+            "type": "string"
+          }
+        },
+        "required": ["customerType", "registrationAmount"]
+      },
+      "steps": [
+        {
+          "name": "Email Verification",
+          "step_type": "notification",
+          "order": 1,
+          "metadata": {
+            "description": "Send verification email"
+          }
+        },
+        {
+          "name": "KYC Verification",
+          "step_type": "task",
+          "order": 2,
+          "metadata": {
+            "description": "Know Your Customer verification"
+          }
+        },
+        {
+          "name": "Corporate Documents",
+          "step_type": "approval",
+          "order": 3,
+          "metadata": {
+            "description": "Review corporate documents"
+          }
+        },
+        {
+          "name": "Account Setup",
+          "step_type": "task",
+          "order": 4,
+          "metadata": {
+            "description": "Setup account and send credentials"
+          }
+        }
+      ],
+      "rules": [
+        {
+          "step_id": 1,
+          "condition": "DEFAULT",
+          "next_step_id": 2,
+          "priority": 100
+        },
+        {
+          "step_id": 2,
+          "condition": "customerType == 'corporate'",
+          "next_step_id": 3,
+          "priority": 1
+        },
+        {
+          "step_id": 2,
+          "condition": "customerType == 'individual'",
+          "next_step_id": 4,
+          "priority": 2
+        },
+        {
+          "step_id": 3,
+          "condition": "DEFAULT",
+          "next_step_id": 4,
+          "priority": 100
+        },
+        {
+          "step_id": 4,
+          "condition": "DEFAULT",
+          "next_step_id": null,
+          "priority": 100
+        }
+      ]
+    },
+    {
+      "name": "Purchase Order Process",
+      "version": 1,
+      "is_active": true,
+      "input_schema": {
+        "properties": {
+          "poAmount": {
+            "type": "number",
+            "description": "Purchase order amount"
+          },
+          "vendor": {
+            "type": "string",
+            "description": "Vendor name"
+          },
+          "department": {
+            "type": "string"
+          }
+        },
+        "required": ["poAmount", "vendor"]
+      },
+      "steps": [
+        {
+          "name": "Department Head Approval",
+          "step_type": "approval",
+          "order": 1,
+          "metadata": {}
+        },
+        {
+          "name": "Budget Check",
+          "step_type": "task",
+          "order": 2,
+          "metadata": {}
+        },
+        {
+          "name": "CFO Approval",
+          "step_type": "approval",
+          "order": 3,
+          "metadata": {}
+        },
+        {
+          "name": "Purchase Order Created",
+          "step_type": "notification",
+          "order": 4,
+          "metadata": {}
+        }
+      ],
+      "rules": [
+        {
+          "step_id": 1,
+          "condition": "DEFAULT",
+          "next_step_id": 2,
+          "priority": 100
+        },
+        {
+          "step_id": 2,
+          "condition": "poAmount > 10000",
+          "next_step_id": 3,
+          "priority": 1
+        },
+        {
+          "step_id": 2,
+          "condition": "poAmount <= 10000",
+          "next_step_id": 4,
+          "priority": 2
+        },
+        {
+          "step_id": 3,
+          "condition": "DEFAULT",
+          "next_step_id": 4,
+          "priority": 100
+        },
+        {
+          "step_id": 4,
+          "condition": "DEFAULT",
+          "next_step_id": null,
+          "priority": 100
+        }
+      ]
+    }
+  ]
+}

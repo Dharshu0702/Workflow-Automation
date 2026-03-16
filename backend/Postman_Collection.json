@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "Workflow Automation System",
+    "description": "API collection for testing Workflow CRUD operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Workflows",
+      "item": [
+        {
+          "name": "Create Workflow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Expense Approval\",\n  \"version\": 1,\n  \"is_active\": true,\n  \"input_schema\": {\n    \"properties\": {\n      \"amount\": { \"type\": \"number\" },\n      \"country\": { \"type\": \"string\" }\n    }\n  },\n  \"start_step_id\": null\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/workflows",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["workflows"]
+            }
+          }
+        },
+        {
+          "name": "Get All Workflows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/workflows",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["workflows"]
+            }
+          }
+        },
+        {
+          "name": "Get Workflow by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/workflows/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["workflows", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "PASTE_WORKFLOW_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Workflow",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Expense Approval Updated\",\n  \"version\": 2,\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/workflows/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["workflows", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "PASTE_WORKFLOW_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Workflow",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/workflows/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["workflows", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "PASTE_WORKFLOW_ID_HERE"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

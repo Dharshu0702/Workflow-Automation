@@ -1,0 +1,177 @@
+.editor-container {
+  padding: 30px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  flex: 1;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.editor-form,
+.steps-section {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.editor-form h3,
+.steps-section h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.btn-large {
+  padding: 12px 30px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.add-step {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-step input,
+.add-step select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.steps-list {
+  display: grid;
+  gap: 15px;
+}
+
+.step-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f9f9f9;
+  border-left: 4px solid #3498db;
+  border-radius: 4px;
+}
+
+.step-info h4 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.step-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.step-rules-summary {
+  margin-top: 10px;
+  padding: 10px;
+  background: #e8f4f8;
+  border-radius: 4px;
+  border-left: 3px solid #3498db;
+}
+
+.step-rules-summary p {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.step-rules-summary ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.step-rules-summary li {
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.rule-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-condition {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex: 1;
+}
+
+.rule-next-step {
+  color: #3498db;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rule-more {
+  color: #888;
+  font-style: italic;
+}

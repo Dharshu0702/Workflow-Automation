@@ -3,12 +3,13 @@ import api from './api';
 export const ExecutionService = {
   // Create & Execute workflow in one call
   executeWorkflow: (workflowId, data, triggeredBy) => {
-    // Add workflow_id to the data payload
-    const payload = {
-      ...data,
-      workflow_id: workflowId
-    };
-    return api.post(`/executions`, payload, { params: { triggered_by: triggeredBy || 'user' } });
+    // Send workflow_id in query params, not in body
+    return api.post(`/executions`, data, { 
+      params: { 
+        workflow_id: workflowId,
+        triggered_by: triggeredBy || 'user' 
+      } 
+    });
   },
   
   // Get execution details

@@ -361,29 +361,6 @@ Rule evaluation failed
 ```
 **Solution:** Check condition syntax. Use operators like `==`, `>`, `&&`, `||`
 
-## Features to Add (Future)
-
-- [ ] User authentication & authorization
-- [ ] Workflow templates
-- [ ] Webhook integrations
-- [ ] Email notifications
-- [ ] Workflow analytics & reporting
-- [ ] Parallel workflow execution
-- [ ] Conditional branching UI builder
-- [ ] Docker containerization
-
-## License
-
-MIT
-
-## Support
-
-For issues and questions, please refer to the inline documentation in code files.
-
-### Quick Links
-- [API Testing Guide](backend/TESTING.md)
-- [Example Workflows](EXAMPLE_WORKFLOWS.json)
-- [Postman Collection](backend/Postman_Collection.json)
 
 ## Frontend
 cd frontend

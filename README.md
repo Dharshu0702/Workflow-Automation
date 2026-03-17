@@ -361,12 +361,6 @@ Rule evaluation failed
 ```
 **Solution:** Check condition syntax. Use operators like `==`, `>`, `&&`, `||`
 
-
-## Frontend
-cd frontend
-npm install
-npm start
-
 Runs on http://localhost:3000
 
 ## Features

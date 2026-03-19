@@ -8,7 +8,7 @@ const createStep = async (workflowId, data) => {
   // If this is the first step, set it as the start step
   const workflow = await Workflow.findById(workflowId);
   if (!workflow.start_step_id) {
-    workflow.start_step_id = savedStep._id.toString();
+    workflow.start_step_id = savedStep._id;
     await workflow.save();
   }
 

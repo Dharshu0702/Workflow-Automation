@@ -1,63 +1,49 @@
 const WorkflowService = require('../services/WorkflowService');
 
-const createWorkflow = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const workflow = await WorkflowService.createWorkflow(req.body);
     res.status(201).json(workflow);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 
-const getWorkflows = async (req, res) => {
+exports.list = async (req, res) => {
   try {
     const workflows = await WorkflowService.getWorkflows();
     res.json(workflows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-const getWorkflow = async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const workflow = await WorkflowService.getWorkflowById(req.params.id);
-    if (!workflow) {
-      return res.status(404).json({ error: 'Workflow not found' });
-    }
+    if (!workflow) return res.status(404).json({ error: 'Not found' });
     res.json(workflow);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-const updateWorkflow = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const workflow = await WorkflowService.updateWorkflow(req.params.id, req.body);
-    if (!workflow) {
-      return res.status(404).json({ error: 'Workflow not found' });
-    }
+    if (!workflow) return res.status(404).json({ error: 'Not found' });
     res.json(workflow);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 
-const deleteWorkflow = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const workflow = await WorkflowService.deleteWorkflow(req.params.id);
-    if (!workflow) {
-      return res.status(404).json({ error: 'Workflow not found' });
-    }
-    res.json({ message: 'Workflow deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (!workflow) return res.status(404).json({ error: 'Not found' });
+    res.json({ message: 'Deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-};
-
-module.exports = {
-  createWorkflow,
-  getWorkflows,
-  getWorkflow,
-  updateWorkflow,
-  deleteWorkflow
 };

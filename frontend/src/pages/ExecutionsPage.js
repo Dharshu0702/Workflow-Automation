@@ -33,8 +33,10 @@ const ExecutionsPage = () => {
   const fetchWorkflows = async () => {
     try {
       const response = await WorkflowService.getWorkflows();
+      // API returns { workflows: [...] }, so access response.data.workflows
       const workflowMap = {};
-      response.data.forEach(workflow => {
+      const workflows = response.data.workflows || response.data || [];
+      workflows.forEach(workflow => {
         // Only include active workflows (not soft deleted)
         if (!workflow.deleted_at) {
           workflowMap[workflow._id] = workflow;
@@ -129,7 +131,7 @@ const ExecutionsPage = () => {
               <div key={execution._id} className="execution-card">
                 <div className="execution-header">
                   <div className="execution-info">
-                    <h3>{workflows[execution.workflow_id]?.name || 'Unknown Workflow'}</h3>
+                    <h3>{execution.workflow_name || workflows[execution.workflow_id]?.name || 'Unknown Workflow'}</h3>
                     <div className="execution-meta">
                       <span className="execution-id">ID: {execution._id}</span>
                       <span className="execution-version">v{execution.workflow_version}</span>

@@ -1,5 +1,4 @@
 const Workflow = require('../models/Workflow');
-const Step = require('../models/Step');
 
 const createWorkflow = async (data) => {
   const workflow = new Workflow(data);
@@ -19,11 +18,7 @@ const updateWorkflow = async (id, data) => {
 };
 
 const deleteWorkflow = async (id) => {
-  return await Workflow.findByIdAndUpdate(id, { 
-    is_active: false, 
-    deleted_at: new Date(),
-    updated_at: new Date()
-  }, { new: true });
+  return await Workflow.findByIdAndDelete(id);
 };
 
 module.exports = {

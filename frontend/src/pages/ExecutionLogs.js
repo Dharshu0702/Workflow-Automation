@@ -11,22 +11,6 @@ const ExecutionLogs = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const calculateDuration = (startedAt, endedAt) => {
-    if (!startedAt) return 'N/A';
-    
-    const start = new Date(startedAt);
-    const end = endedAt ? new Date(endedAt) : new Date();
-    const duration = end - start;
-    
-    if (duration < 0) return 'N/A';
-    
-    const hours = Math.floor(duration / (1000 * 60 * 60));
-    const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((duration % (1000 * 60)) / 1000);
-    
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
   useEffect(() => {
     fetchExecution();
   }, [executionId]);
@@ -99,84 +83,51 @@ const ExecutionLogs = () => {
 
         {execution.logs && execution.logs.length > 0 && (
           <div className="logs-section">
-            <h3>Execution Logs</h3>
+            <h3>Step Execution Logs</h3>
             <div className="step-logs">
               {execution.logs.map((log, idx) => (
                 <div key={idx} className="step-log-card">
                   <div className="step-header">
-                    <div className="step-info">
-                      <h4>[Step {idx + 1}] {log.step_name}</h4>
-                      <div className="step-meta">
-                        <span className="step-type">{log.step_type}</span>
-                        <span className={`step-status ${log.status}`}>{log.status}</span>
-                      </div>
-                    </div>
+                    <h4>Step {idx + 1}: {log.step_name}</h4>
+                    <span className="step-type">{log.step_type}</span>
+                    <span className={`step-status ${log.status}`}>{log.status}</span>
                   </div>
 
-                  <div className="step-content">
-                    {/* Rules Evaluation */}
-                    {log.evaluated_rules && log.evaluated_rules.length > 0 && (
-                      <div className="rules-section">
-                        <h5>Rules evaluated: 
-                          <span className="rules-json">
-                            {JSON.stringify(log.evaluated_rules.map(rule => ({
-                              "rule": rule.condition,
-                              "result": rule.matched
-                            })), null, 2)}
-                          </span>
-                        </h5>
-                      </div>
-                    )}
-
-                    {/* Next Step */}
-                    <div className="next-step-info">
-                      <span className="label">Next Step:</span> 
-                      <span className="value">{log.selected_next_step || 'End'}</span>
-                    </div>
-
-                    {/* Status */}
-                    <div className="status-info">
-                      <span className="label">Status:</span> 
-                      <span className={`value status ${log.status}`}>{log.status}</span>
-                    </div>
-
-                    {/* Approver/Metadata */}
-                    <div className="metadata-info">
-                      <span className="label">Approver:</span> 
-                      <span className="value">
-                        {log.metadata?.approver || 
-                         log.metadata?.user || 
-                         execution.triggered_by || 
-                         'N/A'}
-                      </span>
-                    </div>
-
-                    {/* Duration */}
-                    <div className="duration-info">
-                      <span className="label">Duration:</span> 
-                      <span className="value">
-                        {calculateDuration(log.started_at, log.ended_at)}
-                      </span>
-                    </div>
-
-                    {/* Error Message */}
+                  <div className="step-details">
+                    <p><strong>Started:</strong> {log.started_at ? new Date(log.started_at).toLocaleString() : 'N/A'}</p>
+                    <p><strong>Ended:</strong> {log.ended_at ? new Date(log.ended_at).toLocaleString() : 'N/A'}</p>
                     {log.error_message && (
-                      <div className="error-section">
-                        <span className="label">Error:</span>
-                        <span className="error-msg">{log.error_message}</span>
-                      </div>
-                    )}
-
-                    {/* Additional Metadata */}
-                    {log.metadata && Object.keys(log.metadata).length > 0 && (
-                      <div className="additional-metadata">
-                        <h6>Additional Metadata:</h6>
-                        <pre className="metadata-json">
-                          {JSON.stringify(log.metadata, null, 2)}
-                        </pre>
-                      </div>
+                      <p className="error-msg"><strong>Error:</strong> {log.error_message}</p>
                     )}
                   </div>
+
+                  {log.evaluated_rules && log.evaluated_rules.length > 0 && (
+                    <div className="rules-evaluation">
+                      <h5>Rules Evaluation</h5>
+                      <table className="rules-table">
+                        <thead>
+                          <tr>
+                            <th>Condition</th>
+                            <th>Priority</th>
+                            <th>Matched</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {log.evaluated_rules.map((rule, ridx) => (
+                            <tr key={ridx} className={rule.matched ? 'matched' : ''}>
+                              <td className="condition-cell">{rule.condition}</td>
+                              <td>{rule.priority}</td>
+                              <td>{rule.matched ? '✓ Yes' : '✗ No'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {log.selected_next_step && (
+                    <p><strong>Next Step:</strong> {log.selected_next_step}</p>
+                  )}
                 </div>
               ))}
             </div>

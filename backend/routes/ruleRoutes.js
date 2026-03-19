@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const ruleController = require('../controllers/RuleController');
+const RuleController = require('../controllers/RuleController');
 
-router.post('/', ruleController.createRule);
-router.get('/', ruleController.getRules);
-router.get('/:id', ruleController.getRule);
-router.put('/:id', ruleController.updateRule);
-router.delete('/:id', ruleController.deleteRule);
+router.post('/', RuleController.create);
+router.get('/', RuleController.list);
+router.get('/:id', RuleController.get);
+router.put('/:id', RuleController.update);
+router.delete('/:id', RuleController.delete);
 
 module.exports = router;

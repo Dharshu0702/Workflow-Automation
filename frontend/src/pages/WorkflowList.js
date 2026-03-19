@@ -20,8 +20,7 @@ const WorkflowList = () => {
     setLoading(true);
     try {
       const response = await WorkflowService.getWorkflows();
-      // Only show active workflows (not soft deleted)
-      setWorkflows(response.data.filter(w => !w.deleted_at));
+      setWorkflows(response.data);
     } catch (err) {
       console.error('Failed to fetch workflows:', err);
     } finally {
@@ -33,8 +32,7 @@ const WorkflowList = () => {
     if (window.confirm('Are you sure you want to delete this workflow?')) {
       try {
         await WorkflowService.deleteWorkflow(id);
-        // Remove from UI after soft deletion (filter out deleted workflows)
-        setWorkflows(prev => prev.filter(w => w._id !== id));
+        setWorkflows(workflows.filter(w => w._id !== id));
       } catch (err) {
         console.error('Failed to delete workflow:', err);
       }

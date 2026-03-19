@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-03-19T15:01:35.824Z",
+  "results": {
+    "backend": {
+      "passed": 0,
+      "failed": 3,
+      "errors": [
+        "Rule Engine tests failed",
+        "Workflow Controller tests failed",
+        "Integration tests failed"
+      ]
+    },
+    "frontend": {
+      "passed": 0,
+      "failed": 1,
+      "errors": [
+        "Frontend tests failed"
+      ]
+    },
+    "integration": {
+      "passed": 0,
+      "failed": 0,
+      "errors": []
+    },
+    "issues": [
+      "backend/controllers/StepController.js: Missing input validation",
+      "backend/controllers/RuleController.js: Missing input validation",
+      "backend/controllers/ExecutionController.js: Missing input validation",
+      "backend/services/StepService.js: Missing error handling",
+      "backend/services/RuleService.js: Missing error handling",
+      "backend/server.js: Missing authentication/authorization",
+      "backend/server.js: Missing rate limiting",
+      "backend/controllers/WorkflowController.js: Potential input injection vulnerability",
+      "backend/controllers/StepController.js: Potential input injection vulnerability",
+      "backend/controllers/StepController.js: Missing authentication/authorization",
+      "backend/controllers/RuleController.js: Potential input injection vulnerability",
+      "backend/controllers/RuleController.js: Missing authentication/authorization",
+      "backend/controllers/ExecutionController.js: Potential input injection vulnerability",
+      "backend/controllers/ExecutionController.js: Missing authentication/authorization",
+      "backend/services/WorkflowService.js: Consider adding database indexes",
+      "backend/services/StepService.js: Database queries without pagination/limits",
+      "backend/services/StepService.js: Consider adding database indexes",
+      "backend/services/RuleService.js: Database queries without pagination/limits",
+      "backend/services/RuleService.js: Consider adding database indexes",
+      "frontend/src/pages/WorkflowEditor.js: Consider using React.memo or useMemo for optimization",
+      "frontend/src/pages/WorkflowEditor.js: Consider using useCallback to prevent unnecessary re-renders",
+      "frontend/src/pages/WorkflowExecution.js: Consider using React.memo or useMemo for optimization",
+      "frontend/src/pages/WorkflowExecution.js: Consider using useCallback to prevent unnecessary re-renders"
+    ]
+  },
+  "summary": {
+    "totalTests": 4,
+    "passedTests": 0,
+    "failedTests": 4,
+    "totalIssues": 23
+  }
+}

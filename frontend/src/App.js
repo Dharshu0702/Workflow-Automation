@@ -6,7 +6,6 @@ import WorkflowList from './pages/WorkflowList';
 import WorkflowEditor from './pages/WorkflowEditor';
 import StepRuleEditor from './pages/StepRuleEditor';
 import WorkflowExecution from './pages/WorkflowExecution';
-import ExecutionsPage from './pages/ExecutionsPage';
 import ExecutionLogs from './pages/ExecutionLogs';
 import AuditLog from './pages/AuditLog';
 import './App.css';
@@ -24,7 +23,7 @@ function App() {
             <Route path="/step/:stepId" element={<StepRuleEditor />} />
             <Route path="/execute/:workflowId" element={<WorkflowExecution />} />
             <Route path="/logs/:executionId" element={<ExecutionLogs />} />
-            <Route path="/executions" element={<ExecutionsPage />} />
+            <Route path="/executions" element={<div><h2>Executions Page - Coming Soon</h2></div>} />
             <Route path="/audit" element={<AuditLog />} />
           </Routes>
         </div>

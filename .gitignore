@@ -95,7 +95,6 @@ jspm_packages/
 # Test files (optional - keep if you want to exclude test scripts)
 test-simple.ps1
 test-*.ps1
-tests/
 
 # Database files (if using local DB files)
 *.db

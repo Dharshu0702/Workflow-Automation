@@ -12,5 +12,9 @@ services:
       value: mongodb+srv://root:<db_password>@cluster0.flkisy3.mongodb.net/
     - key: PORT
       value: 10000
+    - key: JWT_SECRET
+      value: your-super-secret-jwt-key
+    - key: ALLOWED_ORIGINS
+      value: https://*.vercel.app,https://vercel.app,https://localhost:3000
   healthCheckPath: /health
   autoDeploy: true

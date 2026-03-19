@@ -114,24 +114,19 @@
   background: #f9f9f9;
   border-left: 4px solid #27ae60;
   border-radius: 4px;
-  margin-bottom: 20px;
 }
 
 .step-header {
-  margin-bottom: 20px;
-}
-
-.step-info h4 {
-  margin: 0 0 10px 0;
-  color: #2c3e50;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.step-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.step-header h4 {
+  margin: 0;
+  color: #2c3e50;
+  flex: 1;
 }
 
 .step-type {
@@ -160,112 +155,65 @@
   color: #721c24;
 }
 
-.step-status.in_progress {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.step-content {
-  display: grid;
-  gap: 15px;
-}
-
-.rules-section h5 {
-  margin: 0;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.rules-json {
-  display: block;
-  margin-top: 8px;
-  padding: 12px;
-  background: #1e1e1e;
-  color: #d4d4d4;
+.step-details {
+  background: white;
+  padding: 15px;
   border-radius: 4px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  white-space: pre-wrap;
-  word-break: break-word;
+  margin-bottom: 15px;
 }
 
-.next-step-info,
-.status-info,
-.metadata-info,
-.duration-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.next-step-info:last-child,
-.status-info:last-child,
-.metadata-info:last-child,
-.duration-info:last-child {
-  border-bottom: none;
-}
-
-.label {
-  font-weight: 600;
-  color: #2c3e50;
-  min-width: 100px;
-}
-
-.value {
+.step-details p {
+  margin: 8px 0;
   color: #666;
-  flex: 1;
-}
-
-.value.status {
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.error-section {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px;
-  background: #f8d7da;
-  border-radius: 4px;
-  border-left: 4px solid #dc3545;
 }
 
 .error-msg {
   color: #721c24;
-  flex: 1;
-  margin: 0;
+  background: #f8d7da;
+  padding: 10px;
+  border-radius: 4px;
 }
 
-.additional-metadata {
-  margin-top: 15px;
+.rules-evaluation {
+  margin-top: 20px;
   padding: 15px;
   background: white;
   border-radius: 4px;
-  border: 1px solid #eee;
 }
 
-.additional-metadata h6 {
-  margin: 0 0 10px 0;
+.rules-evaluation h5 {
+  margin: 0 0 15px 0;
   color: #2c3e50;
-  font-weight: 600;
 }
 
-.metadata-json {
-  background: #f8f9fa;
-  color: #495057;
-  padding: 12px;
-  border-radius: 4px;
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.rules-table th,
+.rules-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.rules-table th {
+  background: #f0f0f0;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.rules-table tr.matched {
+  background: #f0fff4;
+}
+
+.condition-cell {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  margin: 0;
-  overflow-x: auto;
+  font-size: 0.85rem;
+  word-break: break-word;
+  color: #666;
 }
 
 .actions {

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const workflowController = require('../controllers/WorkflowController');
+const WorkflowController = require('../controllers/WorkflowController');
 
-router.post('/', workflowController.createWorkflow);
-router.get('/', workflowController.getWorkflows);
-router.get('/:id', workflowController.getWorkflow);
-router.put('/:id', workflowController.updateWorkflow);
-router.delete('/:id', workflowController.deleteWorkflow);
+router.post('/', WorkflowController.create);
+router.get('/', WorkflowController.list);
+router.get('/:id', WorkflowController.get);
+router.put('/:id', WorkflowController.update);
+router.delete('/:id', WorkflowController.delete);
 
 module.exports = router;

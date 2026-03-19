@@ -1,7 +1,7 @@
 const Rule = require('../models/Rule');
 
-const createRule = async (data) => {
-  const rule = new Rule(data);
+const createRule = async (stepId, data) => {
+  const rule = new Rule({ step_id: stepId, ...data });
   return await rule.save();
 };
 

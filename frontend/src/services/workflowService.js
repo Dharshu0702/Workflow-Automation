@@ -11,16 +11,12 @@ export const WorkflowService = {
   // Steps
   createStep: (workflowId, data) => api.post(`/workflows/${workflowId}/steps`, data),
   getSteps: (workflowId) => api.get(`/workflows/${workflowId}/steps`),
-  getStepById: (stepId) => api.get(`/steps/${stepId}`),
   updateStep: (stepId, data) => api.put(`/steps/${stepId}`, data),
   deleteStep: (stepId) => api.delete(`/steps/${stepId}`),
 
   // Rules
   createRule: (stepId, data) => api.post(`/steps/${stepId}/rules`, data),
   getRules: (stepId) => api.get(`/steps/${stepId}/rules`),
-  getRulesForSteps: (stepIds) => Promise.all(stepIds.map(stepId => 
-    api.get(`/steps/${stepId}/rules`).catch(() => ({ data: [] }))
-  )),
   updateRule: (ruleId, data) => api.put(`/rules/${ruleId}`, data),
   deleteRule: (ruleId) => api.delete(`/rules/${ruleId}`)
 };

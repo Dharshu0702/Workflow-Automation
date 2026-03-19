@@ -15,7 +15,6 @@ const WorkflowEditor = () => {
   });
   const [inputSchemaText, setInputSchemaText] = useState('{}');
   const [steps, setSteps] = useState([]);
-  const [stepRules, setStepRules] = useState({});
   const [newStep, setNewStep] = useState({ name: '', step_type: 'task', order: 1 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,20 +23,6 @@ const WorkflowEditor = () => {
     if (id) {
       fetchWorkflow();
     }
-  }, [id]);
-
-  // Refresh data when component gains focus (returning from rule editor)
-  useEffect(() => {
-    const handleFocus = () => {
-      if (id) {
-        fetchWorkflow();
-      }
-    };
-
-    window.addEventListener('focus', handleFocus);
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-    };
   }, [id]);
 
   const fetchWorkflow = async () => {
@@ -55,21 +40,7 @@ const WorkflowEditor = () => {
       setInputSchemaText(JSON.stringify(schemaObj, null, 2));
 
       const stepsResponse = await WorkflowService.getSteps(id);
-      const fetchedSteps = stepsResponse.data;
-      setSteps(fetchedSteps);
-      
-      // Fetch rules for each step
-      const stepIds = fetchedSteps.map(step => step._id);
-      const rulesResponses = await Promise.all(
-        stepIds.map(stepId => 
-          WorkflowService.getRules(stepId).catch(() => ({ data: [] }))
-        )
-      );
-      const rulesMap = {};
-      fetchedSteps.forEach((step, index) => {
-        rulesMap[step._id] = rulesResponses[index].data;
-      });
-      setStepRules(rulesMap);
+      setSteps(stepsResponse.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch workflow');
     } finally {
@@ -95,24 +66,7 @@ const WorkflowEditor = () => {
         ...newStep,
         order: steps.length + 1
       });
-      const newStepData = response.data;
-      setSteps([...steps, newStepData]);
-      
-      // Fetch rules for the new step
-      try {
-        const rulesResponse = await WorkflowService.getRules(newStepData._id);
-        setStepRules(prev => ({
-          ...prev,
-          [newStepData._id]: rulesResponse.data
-        }));
-      } catch (err) {
-        // If no rules exist, set empty array
-        setStepRules(prev => ({
-          ...prev,
-          [newStepData._id]: []
-        }));
-      }
-      
+      setSteps([...steps, response.data]);
       setNewStep({ name: '', step_type: 'task', order: steps.length + 2 });
       setError(null);
     } catch (err) {
@@ -124,12 +78,6 @@ const WorkflowEditor = () => {
     try {
       await WorkflowService.deleteStep(stepId);
       setSteps(steps.filter(s => s._id !== stepId));
-      // Remove rules for the deleted step
-      setStepRules(prev => {
-        const newRules = { ...prev };
-        delete newRules[stepId];
-        return newRules;
-      });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to delete step');
     }
@@ -270,7 +218,7 @@ const WorkflowEditor = () => {
                 <option value="approval">Approval</option>
                 <option value="notification">Notification</option>
               </select>
-              <button onClick={handleAddStep} className="btn btn-success btn-sm">Add Step</button>
+              <button onClick={handleAddStep} className="btn btn-success">Add Step</button>
             </div>
 
             {steps.length > 0 && (
@@ -280,24 +228,8 @@ const WorkflowEditor = () => {
                     <div className="step-info">
                       <h4>{idx + 1}. {step.name}</h4>
                       <p>Type: {step.step_type}</p>
-                      {stepRules[step._id] && stepRules[step._id].length > 0 && (
-                        <div className="step-rules-summary">
-                          <p><strong>Rules ({stepRules[step._id].length}):</strong></p>
-                          <ul>
-                            {stepRules[step._id].slice(0, 3).map((rule, ruleIdx) => (
-                              <li key={rule._id} className="rule-summary">
-                                <span className="rule-condition">{rule.condition}</span>
-                                <span className="rule-next-step">→ {rule.next_step_id || 'End'}</span>
-                              </li>
-                            ))}
-                            {stepRules[step._id].length > 3 && (
-                              <li className="rule-more">...and {stepRules[step._id].length - 3} more</li>
-                            )}
-                          </ul>
-                        </div>
-                      )}
                     </div>
-                    <button onClick={() => navigate(`/step/${step._id}`)} className="btn btn-sm btn-info">Add Rules</button>
+                    <button onClick={() => navigate(`/step/${step._id}`)} className="btn btn-sm btn-info">Edit Rules</button>
                     <button onClick={() => handleDeleteStep(step._id)} className="btn btn-sm btn-danger">Delete</button>
                   </div>
                 ))}

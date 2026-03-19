@@ -57,18 +57,11 @@ class RuleEngine {
   static async evaluateRules(rules, data, stepId) {
     const evaluatedRules = [];
     let selectedRule = null;
-    let defaultRule = null;
 
     // Sort rules by priority (lowest first)
     const sortedRules = [...rules].sort((a, b) => a.priority - b.priority);
 
     for (const rule of sortedRules) {
-      // Skip DEFAULT rule in initial evaluation - handle it separately
-      if (rule.condition === 'DEFAULT') {
-        defaultRule = rule;
-        continue;
-      }
-
       const isMatched = this.evaluateCondition(rule.condition, data);
       evaluatedRules.push({
         rule_id: rule._id,
@@ -83,23 +76,18 @@ class RuleEngine {
       }
     }
 
-    // If no rule matched and we have a DEFAULT rule, use it
-    if (!selectedRule && defaultRule) {
-      selectedRule = defaultRule;
-      evaluatedRules.push({
-        rule_id: defaultRule._id,
-        condition: 'DEFAULT',
-        priority: defaultRule.priority,
-        matched: true
-      });
-    } else if (defaultRule) {
-      // If other rules were evaluated, add DEFAULT rule as unmatched
-      evaluatedRules.push({
-        rule_id: defaultRule._id,
-        condition: 'DEFAULT',
-        priority: defaultRule.priority,
-        matched: false
-      });
+    // If no rule matched, find DEFAULT rule
+    if (!selectedRule) {
+      const defaultRule = sortedRules.find(r => r.condition === 'DEFAULT');
+      if (defaultRule) {
+        selectedRule = defaultRule;
+        evaluatedRules.push({
+          rule_id: defaultRule._id,
+          condition: 'DEFAULT',
+          priority: defaultRule.priority,
+          matched: true
+        });
+      }
     }
 
     return {

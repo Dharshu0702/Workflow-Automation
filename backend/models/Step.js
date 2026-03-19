@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const StepSchema = new mongoose.Schema({
-  workflow_id: { type: String, required: true },
+  workflow_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Workflow', required: true },
   name: { type: String, required: true },
   step_type: { type: String, enum: ['task', 'approval', 'notification'], required: true },
   order: { type: Number, required: true },

@@ -1,63 +1,49 @@
 const RuleService = require('../services/RuleService');
 
-const createRule = async (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const rule = await RuleService.createRule({ ...req.body, step_id: req.params.step_id });
+    const rule = await RuleService.createRule(req.params.step_id, req.body);
     res.status(201).json(rule);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 
-const getRules = async (req, res) => {
+exports.list = async (req, res) => {
   try {
     const rules = await RuleService.getRulesByStep(req.params.step_id);
     res.json(rules);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-const getRule = async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const rule = await RuleService.getRuleById(req.params.id);
-    if (!rule) {
-      return res.status(404).json({ error: 'Rule not found' });
-    }
+    if (!rule) return res.status(404).json({ error: 'Not found' });
     res.json(rule);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-const updateRule = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const rule = await RuleService.updateRule(req.params.id, req.body);
-    if (!rule) {
-      return res.status(404).json({ error: 'Rule not found' });
-    }
+    if (!rule) return res.status(404).json({ error: 'Not found' });
     res.json(rule);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 
-const deleteRule = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const rule = await RuleService.deleteRule(req.params.id);
-    if (!rule) {
-      return res.status(404).json({ error: 'Rule not found' });
-    }
-    res.json({ message: 'Rule deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (!rule) return res.status(404).json({ error: 'Not found' });
+    res.json({ message: 'Deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-};
-
-module.exports = {
-  createRule,
-  getRules,
-  getRule,
-  updateRule,
-  deleteRule
 };

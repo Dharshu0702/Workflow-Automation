@@ -2,6 +2,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import Dashboard from './pages/Dashboard';
+import Templates from './pages/Templates';
 import WorkflowList from './pages/WorkflowList';
 import WorkflowEditor from './pages/WorkflowEditor';
 import StepRuleEditor from './pages/StepRuleEditor';
@@ -18,9 +20,12 @@ function App() {
         <Sidebar />
         <div className="main-content">
           <Routes>
-            <Route path="/" element={<WorkflowList />} />
-            <Route path="/create" element={<WorkflowEditor />} />
-            <Route path="/edit/:id" element={<WorkflowEditor />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/workflows" element={<WorkflowList />} />
+            <Route path="/workflows/new" element={<WorkflowEditor />} />
+            <Route path="/workflows/:id" element={<WorkflowEditor />} />
             <Route path="/step/:stepId" element={<StepRuleEditor />} />
             <Route path="/execute/:workflowId" element={<WorkflowExecution />} />
             <Route path="/logs/:executionId" element={<ExecutionLogs />} />

@@ -270,7 +270,7 @@ const WorkflowEditor = () => {
                 <option value="approval">Approval</option>
                 <option value="notification">Notification</option>
               </select>
-              <button onClick={handleAddStep} className="btn btn-success">Add Step</button>
+              <button onClick={handleAddStep} className="btn btn-success btn-sm">Add Step</button>
             </div>
 
             {steps.length > 0 && (
@@ -297,7 +297,7 @@ const WorkflowEditor = () => {
                         </div>
                       )}
                     </div>
-                    <button onClick={() => navigate(`/step/${step._id}`)} className="btn btn-sm btn-info">Edit Rules</button>
+                    <button onClick={() => navigate(`/step/${step._id}`)} className="btn btn-sm btn-info">Add Rules</button>
                     <button onClick={() => handleDeleteStep(step._id)} className="btn btn-sm btn-danger">Delete</button>
                   </div>
                 ))}

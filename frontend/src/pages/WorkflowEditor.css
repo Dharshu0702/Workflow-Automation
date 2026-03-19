@@ -59,6 +59,22 @@
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+  min-width: auto;
+  margin: 0 2px;
+}
+
+.btn-xs {
+  padding: 2px 4px !important;
+  font-size: 10px !important;
+  min-width: auto !important;
+  margin: 0 1px !important;
+  line-height: 1.1 !important;
+  border-radius: 2px !important;
+}
+
 .form-group input[type="checkbox"] {
   margin-right: 5px;
 }

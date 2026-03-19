@@ -9,7 +9,7 @@ const WorkflowExecution = () => {
   const { workflowId } = useParams();
   const navigate = useNavigate();
   const [workflow, setWorkflow] = useState(null);
-  const [inputData, setInputData] = useState('{}');
+  const [inputData, setInputData] = useState({});
   const [execution, setExecution] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,7 +29,15 @@ const WorkflowExecution = () => {
         const schema = typeof response.data.input_schema === 'string'
           ? JSON.parse(response.data.input_schema)
           : response.data.input_schema;
-        setInputData(JSON.stringify(schema, null, 2));
+        
+        // Initialize input data with empty values
+        const initialData = {};
+        Object.keys(schema).forEach(key => {
+          initialData[key] = schema[key] === 'number' ? 0 : 
+                           schema[key] === 'boolean' ? false :
+                           schema[key] === 'array' ? [] : '';
+        });
+        setInputData(initialData);
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch workflow');
@@ -38,22 +46,122 @@ const WorkflowExecution = () => {
     }
   };
 
+  const handleInputChange = (field, value, type) => {
+    let processedValue = value;
+    
+    // Convert to appropriate type
+    if (type === 'number') {
+      processedValue = parseFloat(value) || 0;
+    } else if (type === 'boolean') {
+      processedValue = value === 'true' || value === true;
+    } else if (type === 'array') {
+      try {
+        processedValue = typeof value === 'string' ? JSON.parse(value) : value;
+      } catch {
+        processedValue = [];
+      }
+    }
+    
+    setInputData(prev => ({
+      ...prev,
+      [field]: processedValue
+    }));
+  };
+
   const handleExecute = async () => {
     try {
-      let data;
-      try {
-        data = JSON.parse(inputData);
-      } catch {
-        setError('Invalid JSON input');
-        return;
+      setError(null);
+      
+      // Validate required fields
+      if (workflow.input_schema) {
+        const schema = typeof workflow.input_schema === 'string'
+          ? JSON.parse(workflow.input_schema)
+          : workflow.input_schema;
+        
+        for (const [field, type] of Object.entries(schema)) {
+          if (inputData[field] === undefined || inputData[field] === null || inputData[field] === '') {
+            setError(`${field} is required`);
+            return;
+          }
+        }
       }
 
-      // Execute workflow (creates and runs in one call)
-      const response = await ExecutionService.executeWorkflow(workflowId, data, 'user');
+      // Execute workflow
+      const response = await ExecutionService.executeWorkflow(workflowId, inputData, 'user');
       setExecution(response.data.execution);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to execute workflow');
+      const errorMessage = err.response?.data?.error || 'Failed to execute workflow';
+      const errorDetails = err.response?.data?.details;
+      
+      if (errorDetails) {
+        setError(`${errorMessage}: ${errorDetails}`);
+      } else {
+        setError(errorMessage);
+      }
+    }
+  };
+
+  const renderInputField = (fieldName, fieldType, label) => {
+    const value = inputData[fieldName] || '';
+    
+    switch (fieldType) {
+      case 'string':
+        return (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => handleInputChange(fieldName, e.target.value, 'string')}
+            placeholder={`Enter ${label}`}
+            className="form-input"
+          />
+        );
+      
+      case 'number':
+        return (
+          <input
+            type="number"
+            value={value}
+            onChange={(e) => handleInputChange(fieldName, e.target.value, 'number')}
+            placeholder={`Enter ${label}`}
+            className="form-input"
+            step="any"
+          />
+        );
+      
+      case 'boolean':
+        return (
+          <select
+            value={value.toString()}
+            onChange={(e) => handleInputChange(fieldName, e.target.value, 'boolean')}
+            className="form-input"
+          >
+            <option value="false">False</option>
+            <option value="true">True</option>
+          </select>
+        );
+      
+      case 'array':
+        return (
+          <textarea
+            value={Array.isArray(value) ? JSON.stringify(value, null, 2) : value}
+            onChange={(e) => handleInputChange(fieldName, e.target.value, 'array')}
+            placeholder={`Enter ${label} as JSON array`}
+            className="form-input"
+            rows="4"
+          />
+        );
+      
+      default:
+        return (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => handleInputChange(fieldName, e.target.value, 'string')}
+            placeholder={`Enter ${label}`}
+            className="form-input"
+          />
+        );
     }
   };
 
@@ -69,18 +177,34 @@ const WorkflowExecution = () => {
           <div className="execution-form">
             <h3>Workflow Execution</h3>
             
-            <div className="form-group">
-              <label>Input Data (JSON)</label>
-              <textarea
-                value={inputData}
-                onChange={(e) => setInputData(e.target.value)}
-                rows="15"
-              />
-            </div>
+            {workflow?.input_schema && (
+              <div className="input-fields">
+                {(() => {
+                  const schema = typeof workflow.input_schema === 'string'
+                    ? JSON.parse(workflow.input_schema)
+                    : workflow.input_schema;
+                  
+                  return Object.entries(schema).map(([fieldName, fieldType]) => (
+                    <div key={fieldName} className="form-group">
+                      <label>
+                        {fieldName.charAt(0).toUpperCase() + fieldName.slice(1).replace(/_/g, ' ')}
+                        <span className="field-type">({fieldType})</span>
+                      </label>
+                      {renderInputField(fieldName, fieldType, fieldName)}
+                    </div>
+                  ));
+                })()}
+              </div>
+            )}
 
-            <button onClick={handleExecute} className="btn btn-primary btn-large">
-              Execute Workflow
-            </button>
+            <div className="form-actions">
+              <button onClick={handleExecute} className="btn btn-primary btn-large">
+                Execute Workflow
+              </button>
+              <button onClick={() => navigate('/workflows')} className="btn btn-secondary">
+                Back to Workflows
+              </button>
+            </div>
           </div>
         ) : (
           <div className="execution-result">

@@ -63,20 +63,58 @@
 }
 
 .btn-danger {
-  background: #dc3545;
-  color: white;
-  padding: 5px 10px;
-  font-size: 0.85rem;
+  background: #dc3545 !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: 0.85rem !important;
+  border: none !important;
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .btn-danger:hover {
-  background: #c82333;
+  background: #c82333 !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-danger:active {
+  transform: translateY(0) !important;
+}
+
+/* More specific rules for action buttons */
+.action-buttons .btn.btn-sm.btn-danger {
+  background: #dc3545 !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: 0.85rem !important;
+  border: none !important;
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.workflow-table td .action-buttons .btn.btn-sm.btn-danger {
+  background: #dc3545 !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: 0.85rem !important;
+  border: none !important;
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .btn-sm {
   padding: 5px 10px;
   font-size: 0.85rem;
-  margin-right: 5px;
 }
 
 .workflow-table {
@@ -84,6 +122,40 @@
   border-collapse: collapse;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  table-layout: fixed;
+}
+
+.workflow-table th:nth-child(1),
+.workflow-table td:nth-child(1) {
+  width: 25%;
+}
+
+.workflow-table th:nth-child(2),
+.workflow-table td:nth-child(2) {
+  width: 10%;
+}
+
+.workflow-table th:nth-child(3),
+.workflow-table td:nth-child(3) {
+  width: 15%;
+}
+
+.workflow-table th:nth-child(4),
+.workflow-table td:nth-child(4) {
+  width: 15%;
+}
+
+.workflow-table th:nth-child(5),
+.workflow-table td:nth-child(5) {
+  width: 40%;
+  min-width: 350px;
+  max-width: 500px;
+  overflow: visible;
+}
+
+.workflow-table td:nth-child(5) {
+  overflow: visible;
+  white-space: nowrap;
 }
 
 .workflow-table th,
@@ -118,6 +190,20 @@
 .status.inactive {
   background: #f8d7da;
   color: #721c24;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 350px;
+  width: 100%;
+}
+
+.action-buttons .btn {
+  flex-shrink: 0;
 }
 
 .pagination {

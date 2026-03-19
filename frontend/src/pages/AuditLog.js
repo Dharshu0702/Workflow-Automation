@@ -36,31 +36,14 @@ const AuditLog = () => {
 
   const fetchAuditLogs = async () => {
     setLoading(true);
+    setError(null);
     try {
+      // Use the new audit-logs endpoint
       const response = await api.get('/audit-logs');
-      // If endpoint doesn't exist, fetch from executions
-      setAuditLogs(response.data || []);
+      setAuditLogs(response.data.auditLogs || response.data || []);
     } catch (err) {
-      // Fallback: Try to get from executions endpoint
-      try {
-        const execResponse = await api.get('/executions');
-        // Extract audit info from executions
-        const logs = execResponse.data?.map((exec, idx) => ({
-          _id: `${idx}`,
-          workflow_id: exec.workflow_id,
-          execution_id: exec._id,
-          action: 'workflow_executed',
-          actor: exec.triggered_by || 'system',
-          timestamp: exec.started_at,
-          details: {
-            status: exec.status,
-            retries: exec.retries
-          }
-        })) || [];
-        setAuditLogs(logs);
-      } catch (fallbackErr) {
-        setError('Failed to fetch audit logs');
-      }
+      console.error('Failed to fetch audit logs:', err);
+      setError('Failed to fetch audit logs');
     } finally {
       setLoading(false);
     }

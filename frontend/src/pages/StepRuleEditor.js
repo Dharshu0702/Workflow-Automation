@@ -9,6 +9,7 @@ const StepRuleEditor = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(null);
   const [rules, setRules] = useState([]);
+  const [workflowSteps, setWorkflowSteps] = useState([]);
   const [newRule, setNewRule] = useState({ condition: '', next_step_id: '', priority: 1 });
   const [editingRuleId, setEditingRuleId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,12 @@ const StepRuleEditor = () => {
 
       const rulesResponse = await WorkflowService.getRules(stepId);
       setRules(rulesResponse.data);
+
+      // Fetch all workflow steps for dropdown
+      if (stepResponse.data && stepResponse.data.workflow_id) {
+        const stepsResponse = await WorkflowService.getSteps(stepResponse.data.workflow_id);
+        setWorkflowSteps(stepsResponse.data || []);
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch step and rules');
     } finally {
@@ -79,16 +86,6 @@ const StepRuleEditor = () => {
     }
   };
 
-  const handleUpdatePriority = async (ruleId, newPriority) => {
-    try {
-      const rule = rules.find(r => r._id === ruleId);
-      await WorkflowService.updateRule(ruleId, { ...rule, priority: newPriority });
-      fetchStepAndRules();
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to update priority');
-    }
-  };
-
   if (loading) return <div><Navbar title="Loading..." /></div>;
 
   return (
@@ -115,13 +112,23 @@ const StepRuleEditor = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Next Step ID</label>
-              <input
-                type="text"
+              <label>Next Step</label>
+              <select
                 value={newRule.next_step_id}
                 onChange={(e) => setNewRule(prev => ({ ...prev, next_step_id: e.target.value }))}
-                placeholder="Step ObjectId or 'DEFAULT'"
-              />
+                className="step-dropdown"
+              >
+                <option value="">Select a step...</option>
+                <option value="DEFAULT">DEFAULT (End Workflow)</option>
+                {workflowSteps
+                  .filter(s => s._id !== stepId) // Exclude current step
+                  .sort((a, b) => a.order - b.order)
+                  .map(step => (
+                    <option key={step._id} value={step._id}>
+                      {step.name} (Order: {step.order})
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="form-group">
               <label>Priority</label>
@@ -160,13 +167,6 @@ const StepRuleEditor = () => {
                     <p><strong>Next Step:</strong> {rule.next_step_id || 'End'}</p>
                   </div>
                   <div className="rule-actions">
-                    <input
-                      type="number"
-                      value={rule.priority}
-                      onChange={(e) => handleUpdatePriority(rule._id, parseInt(e.target.value))}
-                      min="1"
-                      className="priority-input"
-                    />
                     <button onClick={() => handleEditRule(rule)} className="btn btn-sm btn-info">
                       Edit
                     </button>

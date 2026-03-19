@@ -19,11 +19,13 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/workflow'
 
 
 // Register routes
+const authRoutes = require('./routes/authRoutes');
 const workflowRoutes = require('./routes/workflowRoutes');
 const stepRoutes = require('./routes/stepRoutes');
 const ruleRoutes = require('./routes/ruleRoutes');
 const executionRoutes = require('./routes/executionRoutes');
 
+app.use('/auth', authRoutes);
 app.use('/workflows', workflowRoutes);
 app.use('/workflows/:workflow_id/steps', stepRoutes);
 app.use('/steps/:step_id/rules', ruleRoutes);

@@ -15,9 +15,19 @@ const createExecution = async (req, res) => {
       return res.status(404).json({ error: 'Workflow not found' });
     }
 
-    // Create execution
+    // Check if workflow has steps BEFORE creating execution
+    const stepCount = await Step.countDocuments({ workflow_id: workflow_id, deleted_at: null });
+    if (stepCount === 0) {
+      return res.status(400).json({ 
+        error: 'Workflow cannot be executed',
+        details: 'Steps are not initialized for this workflow. Please add steps before executing.'
+      });
+    }
+
+    // Create execution only if validation passes
     const execution = new Execution({
       workflow_id: workflow_id,
+      workflow_name: workflow.name, // Store workflow name to preserve after deletion
       workflow_version: workflow.version,
       status: 'pending',
       data: executionData,
@@ -48,6 +58,16 @@ const executeWorkflow = async (executionId) => {
     if (!workflow) {
       execution.status = 'failed';
       execution.ended_at = new Date();
+      execution.error_message = 'Workflow not found';
+      await execution.save();
+      return;
+    }
+
+    // Handle missing start_step_id
+    if (!workflow.start_step_id) {
+      execution.status = 'failed';
+      execution.ended_at = new Date();
+      execution.error_message = 'Workflow has no start step configured. Please set a start step in the workflow.';
       await execution.save();
       return;
     }
@@ -58,11 +78,22 @@ const executeWorkflow = async (executionId) => {
     const maxSteps = 50; // Prevent infinite loops
 
     while (currentStepId && stepCount < maxSteps) {
-      const step = await Step.findOne({ _id: currentStepId });
-      if (!step) break;
+      const step = await Step.findOne({ _id: currentStepId, deleted_at: null });
+      if (!step) {
+        // Step not found, end execution
+        logs.push({
+          step_name: 'Unknown Step',
+          step_type: 'unknown',
+          error: `Step with ID ${currentStepId} not found or has been deleted`,
+          status: 'failed',
+          started_at: new Date(),
+          ended_at: new Date()
+        });
+        break;
+      }
 
       // Get rules for this step
-      const rules = await Rule.find({ step_id: step._id }).sort({ priority: 1 });
+      const rules = await Rule.find({ step_id: step._id, deleted_at: null }).sort({ priority: 1 });
       
       // Evaluate rules
       const ruleResult = await RuleEngine.evaluateRules(rules, execution.data, step._id);
@@ -93,6 +124,7 @@ const executeWorkflow = async (executionId) => {
     if (execution) {
       execution.status = 'failed';
       execution.ended_at = new Date();
+      execution.error_message = error.message;
       await execution.save();
     }
   }

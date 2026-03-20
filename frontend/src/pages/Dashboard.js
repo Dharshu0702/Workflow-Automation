@@ -126,7 +126,7 @@ const Dashboard = () => {
           <h2>Quick Actions</h2>
           <div className="quick-actions-grid">
             <button 
-              onClick={() => navigate('/workflows/new')}
+              onClick={() => navigate('/create')}
               className="action-card"
             >
               <div className="action-icon">➕</div>
@@ -210,7 +210,7 @@ const Dashboard = () => {
                     </div>
                     <div className="recent-actions">
                       <button 
-                        onClick={() => navigate(`/workflows/${workflow._id}`)}
+                        onClick={() => navigate(`/edit/${workflow._id}`)}
                         className="btn btn-sm btn-info"
                       >
                         Edit

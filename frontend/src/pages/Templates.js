@@ -12,9 +12,6 @@ const Templates = () => {
     name: '',
     category: 'Custom',
     description: '',
-    icon: '📋',
-    difficulty: 'Beginner',
-    estimatedTime: '10 minutes',
     steps: [],
     rules: [],
     inputSchema: {}
@@ -239,7 +236,7 @@ const Templates = () => {
       }
 
       // Navigate to workflow editor
-      navigate(`/workflows/${workflow._id}`);
+      navigate(`/edit/${workflow._id}`);
     } catch (error) {
       setError('Failed to create workflow from template');
     }
@@ -281,9 +278,6 @@ const Templates = () => {
       name: '',
       category: 'Custom',
       description: '',
-      icon: '📋',
-      difficulty: 'Beginner',
-      estimatedTime: '10 minutes',
       steps: [],
       rules: [],
       inputSchema: {}
@@ -296,9 +290,6 @@ const Templates = () => {
       name: '',
       category: 'Custom',
       description: '',
-      icon: '📋',
-      difficulty: 'Beginner',
-      estimatedTime: '10 minutes',
       steps: [],
       rules: [],
       inputSchema: {}
@@ -365,35 +356,6 @@ const Templates = () => {
                   <option value="Procurement">Procurement</option>
                   <option value="Support">Support</option>
                 </select>
-              </div>
-              <div className="form-group">
-                <label>Icon</label>
-                <input
-                  type="text"
-                  value={newTemplate.icon}
-                  onChange={(e) => setNewTemplate(prev => ({ ...prev, icon: e.target.value }))}
-                  placeholder="📋"
-                />
-              </div>
-              <div className="form-group">
-                <label>Difficulty</label>
-                <select
-                  value={newTemplate.difficulty}
-                  onChange={(e) => setNewTemplate(prev => ({ ...prev, difficulty: e.target.value }))}
-                >
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Advanced">Advanced</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Estimated Time</label>
-                <input
-                  type="text"
-                  value={newTemplate.estimatedTime}
-                  onChange={(e) => setNewTemplate(prev => ({ ...prev, estimatedTime: e.target.value }))}
-                  placeholder="10 minutes"
-                />
               </div>
               <div className="form-actions">
                 <button onClick={handleSaveTemplate} className="btn btn-primary">
@@ -466,9 +428,6 @@ const Templates = () => {
                   className="btn btn-primary"
                 >
                   Use Template
-                </button>
-                <button className="btn btn-secondary">
-                  Preview
                 </button>
               </div>
             </div>

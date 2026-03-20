@@ -10,6 +10,8 @@ const Sidebar = () => {
       </div>
       <nav className="sidebar-nav">
         <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}> Workflows</NavLink>
+        <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}> Dashboard</NavLink>
+        <NavLink to="/templates" className={({ isActive }) => isActive ? 'active' : ''}> Templates</NavLink>
         <NavLink to="/executions" className={({ isActive }) => isActive ? 'active' : ''}> Executions</NavLink>
         <NavLink to="/audit" className={({ isActive }) => isActive ? 'active' : ''}> Audit Logs</NavLink>
       </nav>

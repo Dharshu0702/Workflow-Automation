@@ -150,12 +150,12 @@ const Dashboard = () => {
               <p>Monitor workflow executions</p>
             </button>
             <button 
-              onClick={() => navigate('/workflows')}
+              onClick={() => navigate('/audit')}
               className="action-card"
             >
               <div className="action-icon">⚙️</div>
               <h3>Manage Workflows</h3>
-              <p>Edit and configure workflows</p>
+              <p>View workflow audit logs and history</p>
             </button>
           </div>
         </div>

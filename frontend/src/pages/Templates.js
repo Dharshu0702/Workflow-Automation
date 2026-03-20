@@ -196,7 +196,8 @@ const Templates = () => {
     setLoading(false);
   };
 
-  const handleUseTemplate = async (template) => {
+  const handleUseTemplate = async (template, event) => {
+    event.preventDefault(); // Prevent any default form behavior
     try {
       // Create workflow from template
       const workflowData = {
@@ -424,7 +425,7 @@ const Templates = () => {
 
               <div className="template-actions">
                 <button 
-                  onClick={() => handleUseTemplate(template)}
+                  onClick={(e) => handleUseTemplate(template, e)}
                   className="btn btn-primary"
                 >
                   Use Template

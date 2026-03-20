@@ -1,0 +1,177 @@
+/* Dynamic Form Generator Styles */
+.dynamic-form {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.form-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.form-header h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.form-header p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.form-label.required::after {
+  content: " *";
+  color: #dc3545;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.form-control:invalid {
+  border-color: #dc3545;
+}
+
+.form-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+  margin-right: 8px;
+  margin-top: 0;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.multi-select {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  background: #f8f9fa;
+}
+
+.object-field {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  background: #f8f9fa;
+}
+
+.object-field p {
+  margin: 0 0 10px 0;
+  font-weight: 500;
+  color: #495057;
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+.alert h4 {
+  margin: 0 0 10px 0;
+  color: #856404;
+}
+
+.alert p {
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dynamic-form {
+    padding: 15px;
+  }
+  
+  .form-control {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Animation for form interactions */
+.form-group {
+  transition: all 0.2s ease-in-out;
+}
+
+.form-group:hover {
+  transform: translateY(-1px);
+}
+
+/* Success state */
+.form-control.is-valid {
+  border-color: #28a745;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+/* Loading state */
+.form-control.loading {
+  background-color: #f8f9fa;
+  opacity: 0.6;
+}
+
+/* Fieldset styling for grouping */
+.fieldset {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.fieldset legend {
+  padding: 0 10px;
+  font-weight: 600;
+  color: #2c3e50;
+  border: none;
+  width: auto;
+}

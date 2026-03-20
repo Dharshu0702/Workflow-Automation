@@ -18,7 +18,7 @@ const AuditLog = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = auditLogs;
+    let filtered = Array.isArray(auditLogs) ? auditLogs : [];
 
     if (workflowFilter) {
       filtered = filtered.filter(log => 
@@ -38,8 +38,21 @@ const AuditLog = () => {
     setLoading(true);
     try {
       const response = await api.get('/audit-logs');
-      // If endpoint doesn't exist, fetch from executions
-      setAuditLogs(response.data || []);
+      // Handle different response structures
+      const logsData = response.data;
+      let logs = [];
+      
+      if (Array.isArray(logsData)) {
+        logs = logsData;
+      } else if (logsData && logsData.auditLogs && Array.isArray(logsData.auditLogs)) {
+        logs = logsData.auditLogs;
+      } else if (logsData && logsData.logs && Array.isArray(logsData.logs)) {
+        logs = logsData.logs;
+      } else {
+        logs = [];
+      }
+      
+      setAuditLogs(logs);
     } catch (err) {
       // Fallback: Try to get from executions endpoint
       try {
@@ -99,41 +112,61 @@ const AuditLog = () => {
           <p>No audit logs found.</p>
         ) : (
           <div className="audit-logs">
-            {filteredLogs.map((log, idx) => (
-              <div key={log._id || idx} className="audit-entry">
-                <div className="audit-header">
-                  <h4>{log.action}</h4>
-                  <span className="timestamp">
-                    {new Date(log.timestamp).toLocaleString()}
-                  </span>
-                </div>
-
-                <div className="audit-details">
-                  <p><strong>Actor:</strong> {log.actor}</p>
-                  <p><strong>Workflow:</strong> {log.workflow_id || 'N/A'}</p>
-                  {log.execution_id && (
-                    <p>
-                      <strong>Execution:</strong>
-                      <button 
-                        onClick={() => navigate(`/logs/${log.execution_id}`)}
-                        className="link-btn"
-                      >
-                        {log.execution_id.slice(0, 8)}...
-                      </button>
-                    </p>
-                  )}
-
-                  {log.details && (
-                    <details className="additional-details">
-                      <summary>Additional Details</summary>
-                      <pre>
-                        {JSON.stringify(log.details, null, 2)}
-                      </pre>
-                    </details>
-                  )}
-                </div>
-              </div>
-            ))}
+            <table className="audit-table">
+              <thead>
+                <tr>
+                  <th>Workflow Name</th>
+                  <th>Execution ID</th>
+                  <th>Version</th>
+                  <th>Status</th>
+                  <th>Started By</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredLogs.map((log, idx) => (
+                  <tr key={log._id || idx}>
+                    <td>{log.details?.workflow_name || 'N/A'}</td>
+                    <td>
+                      <span className="execution-id">
+                        {log.execution_id ? log.execution_id.slice(0, 8) + '...' : 'N/A'}
+                      </span>
+                    </td>
+                    <td>{log.details?.workflow_version || 'N/A'}</td>
+                    <td>
+                      <span className={`status-badge ${log.details?.workflow_status || 'unknown'}`}>
+                        {log.details?.workflow_status || 'Unknown'}
+                      </span>
+                    </td>
+                    <td>{log.actor || 'N/A'}</td>
+                    <td>
+                      {log.details?.start_time ? 
+                        new Date(log.details.start_time).toLocaleString() : 
+                        new Date(log.timestamp).toLocaleString()
+                      }
+                    </td>
+                    <td>
+                      {log.details?.end_time ? 
+                        new Date(log.details.end_time).toLocaleString() : 
+                        'N/A'
+                      }
+                    </td>
+                    <td>
+                      {log.execution_id && (
+                        <button 
+                          onClick={() => navigate(`/logs/${log.execution_id}`)}
+                          className="btn btn-sm btn-info"
+                        >
+                          View Logs
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 

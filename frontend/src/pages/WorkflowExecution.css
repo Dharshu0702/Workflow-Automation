@@ -175,3 +175,249 @@
 .btn-secondary:hover {
   background: #5a6268;
 }
+
+.log-header {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-header h5 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.timestamp {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.log-status {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.log-status p {
+  margin: 0;
+}
+
+.rule-evaluation-summary {
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rule-evaluation-summary h6 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.rule-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rule-result {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px 15px;
+  transition: all 0.2s ease;
+}
+
+.rule-result:hover {
+  border-color: #3498db;
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+.rule-result.selected {
+  border-color: #28a745;
+  background: #d4edda;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.1);
+}
+
+.rule-condition {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.condition-text {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  color: #495057;
+  background: #f1f3f4;
+  padding: 4px 8px;
+  border-radius: 3px;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.result-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+}
+
+.result-badge.true {
+  background: #d4edda;
+  color: #155724;
+}
+
+.result-badge.false {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.selected-badge {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rule-details {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.rule-summary-text {
+  color: #495057;
+  font-style: italic;
+  margin: 0;
+}
+
+.next-step-info {
+  margin: 10px 0 0 0;
+  padding: 8px 12px;
+  background: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.input-data-details {
+  margin: 15px 20px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.input-data-details summary {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.input-data-details summary:hover {
+  background: #e9ecef;
+}
+
+.input-data-json {
+  margin: 0;
+  padding: 15px;
+  background: #f8f9fa;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  overflow-x: auto;
+  border: none;
+}
+
+.detailed-rules {
+  margin: 15px 20px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.detailed-rules summary {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.detailed-rules summary:hover {
+  background: #e9ecef;
+}
+
+.detailed-rules ul {
+  margin: 0;
+  padding: 15px;
+  list-style: none;
+}
+
+.detailed-rules li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #dee2e6;
+}
+
+.detailed-rules li.matched {
+  background: #d4edda;
+  border-left-color: #28a745;
+}
+
+.detailed-rules li.not-matched {
+  background: #f8d7da;
+  border-left-color: #dc3545;
+}
+
+.rule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rule-info .rule-condition {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  color: #495057;
+  background: #f1f3f4;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.rule-priority {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.rule-result {
+  font-weight: 600;
+}
+
+.rule-result .matched {
+  color: #28a745;
+}
+
+.rule-result .not-matched {
+  color: #dc3545;
+}

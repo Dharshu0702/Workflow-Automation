@@ -24,12 +24,14 @@ const workflowRoutes = require('./routes/workflowRoutes');
 const stepRoutes = require('./routes/stepRoutes');
 const ruleRoutes = require('./routes/ruleRoutes');
 const executionRoutes = require('./routes/executionRoutes');
+const auditLogRoutes = require('./routes/auditLogRoutes');
 
 app.use('/workflows', workflowRoutes);
 app.use('/workflows/:workflow_id/steps', stepRoutes);
 app.use('/steps', stepRoutes);
 app.use('/steps/:step_id/rules', ruleRoutes);
 app.use('/executions', executionRoutes);
+app.use('/audit-logs', auditLogRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

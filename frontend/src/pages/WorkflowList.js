@@ -20,7 +20,8 @@ const WorkflowList = () => {
     setLoading(true);
     try {
       const response = await WorkflowService.getWorkflows();
-      setWorkflows(response.data);
+      const workflows = Array.isArray(response.data) ? response.data : [];
+      setWorkflows(workflows.filter(w => !w.deleted_at));
     } catch (err) {
       console.error('Failed to fetch workflows:', err);
     } finally {

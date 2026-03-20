@@ -11,6 +11,7 @@ export const WorkflowService = {
   // Steps
   createStep: (workflowId, data) => api.post(`/workflows/${workflowId}/steps`, data),
   getSteps: (workflowId) => api.get(`/workflows/${workflowId}/steps`),
+  getStepById: (stepId) => api.get(`/steps/${stepId}`),
   updateStep: (stepId, data) => api.put(`/steps/${stepId}`, data),
   deleteStep: (stepId) => api.delete(`/steps/${stepId}`),
 

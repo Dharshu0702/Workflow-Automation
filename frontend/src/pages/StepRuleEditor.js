@@ -9,6 +9,7 @@ const StepRuleEditor = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(null);
   const [rules, setRules] = useState([]);
+  const [workflowSteps, setWorkflowSteps] = useState([]);
   const [newRule, setNewRule] = useState({ condition: '', next_step_id: '', priority: 1 });
   const [editingRuleId, setEditingRuleId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,12 @@ const StepRuleEditor = () => {
   useEffect(() => {
     fetchStepAndRules();
   }, [stepId]);
+
+  useEffect(() => {
+    if (step && step.workflow_id) {
+      fetchWorkflowSteps();
+    }
+  }, [step]);
 
   const fetchStepAndRules = async () => {
     setLoading(true);
@@ -30,6 +37,28 @@ const StepRuleEditor = () => {
       setError(err.response?.data?.error || 'Failed to fetch step and rules');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchWorkflowSteps = async () => {
+    try {
+      // Use the already loaded step data to get workflow ID
+      if (!step || !step.workflow_id) {
+        console.log('Step or workflow_id not available:', step);
+        return;
+      }
+      
+      console.log('Fetching steps for workflow:', step.workflow_id);
+      
+      // Get all steps for this workflow
+      const stepsResponse = await WorkflowService.getSteps(step.workflow_id);
+      console.log('Steps response:', stepsResponse);
+      console.log('Steps data:', stepsResponse.data);
+      
+      setWorkflowSteps(stepsResponse.data || []);
+    } catch (err) {
+      console.error('Failed to fetch workflow steps:', err);
+      setError('Failed to fetch workflow steps: ' + (err.response?.data?.error || err.message));
     }
   };
 
@@ -115,13 +144,32 @@ const StepRuleEditor = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Next Step ID</label>
-              <input
-                type="text"
+              <label>Next Step</label>
+              <select
                 value={newRule.next_step_id}
                 onChange={(e) => setNewRule(prev => ({ ...prev, next_step_id: e.target.value }))}
-                placeholder="Step ObjectId or 'DEFAULT'"
-              />
+              >
+                <option value="">Select a step...</option>
+                <option value="DEFAULT">DEFAULT (End Workflow)</option>
+                {workflowSteps && workflowSteps.length > 0 ? (
+                  workflowSteps
+                    .filter(s => s._id !== stepId) // Exclude current step
+                    .sort((a, b) => a.order - b.order)
+                    .map(step => (
+                      <option key={step._id} value={step._id}>
+                        {step.order}. {step.name}
+                      </option>
+                    ))
+                ) : (
+                  <option value="" disabled>No steps available</option>
+                )}
+              </select>
+              {workflowSteps && workflowSteps.length > 0 && (
+                <small>
+                  Available steps: {workflowSteps.length} | 
+                  Current step: {step?.name || 'Loading...'}
+                </small>
+              )}
             </div>
             <div className="form-group">
               <label>Priority</label>

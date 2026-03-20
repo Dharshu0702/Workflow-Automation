@@ -216,13 +216,13 @@ REACT_APP_API_URL=https://workflow-backend.onrender.com
 ### **✅ Backend CORS Configuration:**
 ```yaml
 # render.yaml - ALLOWED_ORIGINS includes:
-value: https://*.vercel.app,https://vercel.app,https://localhost:3000,https://workflowautomation-7617xu3zo-suryas-projects-3a402b64.vercel.app
+value: https://*.vercel.app,https://vercel.app,https://localhost:3000,https://workflowautomation-7617xu3zo-suryas-projects-3a402b64.vercel.app,https://workflowauto-o2b7tflup-suryas-projects-3a402b64.vercel.app/,https://workflowauto-o2b7tflup-suryas-projects-3a402b64.vercel.app/
 ```
 
 ### **✅ Frontend Origin:**
 ```
 📋 Local: http://localhost:3000
-📋 Vercel: https://workflowautomation-7617xu3zo-suryas-projects-3a402b64.vercel.app
+📋 Vercel: https://workflowauto-o2b7tflup-suryas-projects-3a402b64.vercel.app/
 📋 Both are allowed in CORS configuration
 ```
 

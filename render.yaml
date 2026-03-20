@@ -15,6 +15,6 @@ services:
     - key: JWT_SECRET
       value: your-super-secret-jwt-key
     - key: ALLOWED_ORIGINS
-      value: https://*.vercel.app,https://vercel.app,https://localhost:3000,https://workflowautomation-7617xu3zo-suryas-projects-3a402b64.vercel.app,https://workflow-automation-1-cnj3.onrender.com
+      value: https://*.vercel.app,https://vercel.app,https://localhost:3000,https://workflowautomation-7617xu3zo-suryas-projects-3a402b64.vercel.app,https://workflow-automation-1-cnj3.onrender.com,https://workflowauto-o2b7tflup-suryas-projects-3a402b64.vercel.app
   healthCheckPath: /health
   autoDeploy: true
